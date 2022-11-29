@@ -1,0 +1,82 @@
+.wink-oauth-button-light {
+  width: 230px;
+  cursor: pointer;
+  font-family: 'Source Sans Pro', arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  background: #ffff;
+  -webkit-transition: background-color 250ms linear;
+  -ms-transition: background-color 250ms linear;
+  transition: background-color 250ms linear;
+  border: none;
+  color: #0000008a;
+  font-size: 18px;
+  line-height: 25px;
+  letter-spacing: 0.21px;
+  padding: 15px;
+  gap: 15px;
+  text-decoration: none;
+  background: #ffffff;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.084), 0px 2px 3px rgba(0, 0, 0, 0.168);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.wink-oauth-button-light:hover {
+  background-color: #3d4897;
+  color: #ffff;
+  -webkit-transition: background-color 250ms linear;
+  -ms-transition: background-color 250ms linear;
+  transition: background-color 250ms linear;
+}
+
+.wink-oauth-button-light svg {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.wink-oauth-button-dark {
+  width: 230px;
+  cursor: pointer;
+  font-family: 'Source Sans Pro', arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  background: #000;
+  -webkit-transition: background-color 250ms linear;
+  -ms-transition: background-color 250ms linear;
+  transition: background-color 250ms linear;
+  border: none;
+  color: #0000008a;
+  font-size: 18px;
+  line-height: 25px;
+  letter-spacing: 0.21px;
+  padding: 15px;
+  gap: 15px;
+  text-decoration: none;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.084), 0px 2px 3px rgba(0, 0, 0, 0.168);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  color: #ffff;
+}
+
+.wink-oauth-button-dark:hover {
+  background-color: #3d4897;
+  background: #ffff;
+  color: #000;
+  -webkit-transition: background-color 250ms linear;
+  -ms-transition: background-color 250ms linear;
+  transition: background-color 250ms linear;
+}
+
+.wink-oauth-button-dark svg {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+#wink-oauth-refresh-button {
+  background-color: lightgray;
+}
