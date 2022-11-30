@@ -8,6 +8,8 @@ var commonjsGlobal =
     : "undefined" != typeof self
     ? self
     : {};
+var refreshButtonInterval;
+
 function createCommonjsModule(e) {
   var t = { exports: {} };
   return e(t, t.exports), t.exports;
@@ -2112,7 +2114,7 @@ function Keycloak(e) {
       return (
         o.endpoints.logout() +
         "?post_logout_redirect_uri=" + encodeURIComponent(t.redirectUri(e, !1)) +
-        "&id_token_hint=" + encodeURIComponent(o.idToken)         
+        "&id_token_hint=" + encodeURIComponent(o.idToken)
       );
     }),
     (o.register = function (e) {
@@ -2357,6 +2359,7 @@ function Keycloak(e) {
     o.loadUserProfile()
       .then(function (profile) {
         o.renderUserData(profile);
+        refreshButtonInterval = setInterval(o.updateRefreshTokenButton, 1000);
         obj.getUserProfile(profile);
       })
       .catch(function (error) {
@@ -2391,9 +2394,9 @@ function Keycloak(e) {
         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
     }).join(''));
 
-    return JSON.parse(jsonPayload);  
+    return JSON.parse(jsonPayload);
   };
-  
+
   function openTab(evt, tokenName) {
 
     var i, tabcontent, tablinks;
@@ -2425,13 +2428,22 @@ function Keycloak(e) {
       });
   };
 
+  o.updateRefreshTokenButton = function () {
+    const curTime = new Date();
+    const expTime = new Date(winkLogin.tokenParsed.exp * 1000);
+    if (expTime < curTime) {
+      $("#wink-oauth-refresh-button").css("background", "blue");
+      clearInterval(refreshButtonInterval);
+    }
+  }
+
   o.renderUserData = function (profile) {
     console.log("renderUserData");
     let userDataElement = document.getElementById("wink-user-data");
     if (userDataElement) {
         userDataElement.innerHTML = "";
         userDataElement.innerHTML = `
-        
+
         `;
         o.renderButtons();
         o.renderTokens(profile);
@@ -2446,7 +2458,7 @@ function Keycloak(e) {
     if (buttonsElement) {
         buttonsElement.innerHTML = "";
         buttonsElement.innerHTML = `
-        
+
 	   <button id="wink-oauth-refresh-button" class="wink-oauth-button" onclick="refreshToken();">Refresh token</button>
 	   <button id="wink-oauth-logout-button" class="wink-oauth-button" onclick="signOut();">Sign out</button>
           `;
@@ -2470,7 +2482,7 @@ function Keycloak(e) {
            <button class="tablinks" onclick="openTab(event, 'IDT')">ID token</button>
         </div>
 
-        <div id="I" class="tabcontent">	
+        <div id="I" class="tabcontent">
           <div class="row">
             <div class="column" style="max-width: 255px">
                <p><b>Username (winkTag)</b></p>
@@ -2480,18 +2492,18 @@ function Keycloak(e) {
                <p><b>Email (email)</b></p>
                <p><b>ID (identityId)</b></p>
                <p><b>WinkToken</b></p>
-            </div> 
+            </div>
             <div class="column">
                <p>${profile.username}</p>
                <p>${o.idTokenParsed.given_name}</p>
                <p>${o.idTokenParsed.family_name}</p>
                <p>${o.idTokenParsed.phone_number}</p>
                <p>${o.idTokenParsed.email}</p>
-               <p>${o.idTokenParsed.oid}</p>   
-               <p>${o.idTokenParsed.sub}</p>   
+               <p>${o.idTokenParsed.oid}</p>
+               <p>${o.idTokenParsed.sub}</p>
              </div>
-          </div> 
-            
+          </div>
+
         </div>
 
 
@@ -2504,14 +2516,14 @@ function Keycloak(e) {
 <div id="RET" class="tabcontent">
   <p><b>Expiration date: </b>${o.getFormattedTime(o.refreshTokenParsed.exp)}</p>
   <p><textarea id="rT" cols="100" rows="3">${o.refreshToken}</textarea></p>
-  <p><textarea id="rTP" cols="100" rows="12">${JSON.stringify(o.refreshTokenParsed, null, 4)}</textarea></p>   
+  <p><textarea id="rTP" cols="100" rows="12">${JSON.stringify(o.refreshTokenParsed, null, 4)}</textarea></p>
 </div>
 
-<div id="IDT" class="tabcontent">  
+<div id="IDT" class="tabcontent">
   <p><b>Expiration date: </b>${o.getFormattedTime(o.idTokenParsed.exp)}</p>
   <p><textarea id="iT" cols="100" rows="3">${o.idToken}</textarea></p>
-  <p><textarea id="iTP" cols="100" rows="12">${JSON.stringify(o.idTokenParsed, null, 4)}</textarea></p>  
-</div>       
+  <p><textarea id="iTP" cols="100" rows="12">${JSON.stringify(o.idTokenParsed, null, 4)}</textarea></p>
+</div>
         `;
     document.getElementById("defaultOpen").click()
 
@@ -2523,7 +2535,7 @@ function Keycloak(e) {
   o.getFormattedTime = function(timestamp) {
      var date = new Date(timestamp * 1000);
      return date.toLocaleString();
-  } 
+  }
 }
 
 console.log("wapi:loaded");
