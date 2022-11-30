@@ -2548,4 +2548,5 @@ var addStyles = function (e) {
   addStyles(css_248z);
 }),
   (window.WinkLogin = Keycloak);
+
 //# sourceMappingURL=winklogin.module.js.map
